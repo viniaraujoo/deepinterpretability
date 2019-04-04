@@ -80,18 +80,20 @@ def download_file(url):
 
 
 ## VIEWS FLASK
-lime = Blueprint('lime', __name__)
+#lime = Blueprint('lime', __name__)
 
-@lime.route('/explanation')
-
+@app.route('/explanation/',methods=['GET'])
+    def get():
+        return "ok"
+'''
 class ExplanationView(MethodView):
 
 
 
     def post(self):
-        return abort(200)
+        return "ok"
 
-'''
+
         modelurl = request.form.get('modelurl')
         exampleurl = request.form.get('exampleurl')
         model = download_file(modelurl)
@@ -100,8 +102,9 @@ class ExplanationView(MethodView):
         return abort(200)
 
 '''
-
+'''
 explanation_view =  ExplanationView.as_view('explanation_view')
 app.add_url_rule(
     '/explanation/', view_func=explanation_view, methods=['POST']
 )
+'''
