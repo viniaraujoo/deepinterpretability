@@ -1,6 +1,6 @@
 import requests
 import json
-from flask import request, jsonify, Blueprint, abort
+from flask import request, jsonify, Blueprint, abort, app
 from flask.views import MethodView
 import lime
 from lime import lime_image
@@ -82,9 +82,9 @@ def download_file(url):
 ## VIEWS FLASK
 #lime = Blueprint('lime', __name__)
 
-@app.route('/explanation/',methods=['GET'])
-    def get():
-        return "ok"
+@app.get('/explanation/')
+def get():
+    return "ok"
 '''
 class ExplanationView(MethodView):
 
