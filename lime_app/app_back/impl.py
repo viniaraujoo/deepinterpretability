@@ -44,9 +44,9 @@ def impl(model_predict,test,train=None,feature_names=None,class_names=None,idx_t
         return [exp.as_pyplot_figure(label=0) for exp in sp_obj.sp_explanations];
 
 def transforming_img(exemple):
-    with open(os.path.join('data','image.jpg'), 'wb') as handler:
+    with open(os.path.join('image.jpg'), 'wb') as handler:
         handler.write(exemple)
-    images = transform_img_fn([os.path.join('data','image.jpg')])
+    images = transform_img_fn([os.path.join('image.jpg')])
 
     return images
 
@@ -76,5 +76,7 @@ def download_file(url):
     return local_filename
 
 
-def status():
+def get_image(url):
+    img_data = requests.get(url).content
+    img_data = transforming_img(img_data)
     return 'ok'
