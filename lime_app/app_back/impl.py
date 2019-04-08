@@ -1,7 +1,5 @@
 import requests
 import json
-from flask import request, jsonify, Blueprint, abort, app
-from flask.views import MethodView
 import lime
 from lime import lime_image
 import lime.lime_tabular
@@ -17,6 +15,7 @@ import sklearn
 from skimage.segmentation import mark_boundaries
 
 ## Application code - LIME
+
 
 def impl(model_predict,test,train=None,feature_names=None,class_names=None,idx_test=None,num_features=6,top_labels=5,hide_color=0,num_samples=1000):
       
@@ -77,34 +76,5 @@ def download_file(url):
     return local_filename
 
 
-
-
-## VIEWS FLASK
-#lime = Blueprint('lime', __name__)
-
-@app.get('/explanation/')
-def get():
-    return "ok"
-'''
-class ExplanationView(MethodView):
-
-
-
-    def post(self):
-        return "ok"
-
-
-        modelurl = request.form.get('modelurl')
-        exampleurl = request.form.get('exampleurl')
-        model = download_file(modelurl)
-        example = download_file(exampleurl)
-        impl(model,example)
-        return abort(200)
-
-'''
-'''
-explanation_view =  ExplanationView.as_view('explanation_view')
-app.add_url_rule(
-    '/explanation/', view_func=explanation_view, methods=['POST']
-)
-'''
+def status():
+    return 'ok'
