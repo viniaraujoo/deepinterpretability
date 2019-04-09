@@ -4,5 +4,6 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def method_name():
-    url = request.form.get('url')
-    return impl.get_image(url)
+    url1 = request.form.get('model')
+    url2 = request.form.get('example')
+    return impl.explanation_image(url1,url2)

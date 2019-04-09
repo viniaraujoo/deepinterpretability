@@ -13,6 +13,8 @@ from keras.preprocessing import image
 from keras.applications import inception_v3 as inc_net
 import sklearn
 from skimage.segmentation import mark_boundaries
+from keras.models import load_model
+from keras.metrics import top_k_categorical_accuracy
 
 ## Application code - LIME
 
@@ -62,21 +64,22 @@ def transform_img_fn(path_list):
         out.append(x)
     return np.vstack(out)
 
-## Request url model and example
-def download_file(url):
-    local_filename = url.split('/')[-1]
-    # NOTE the stream=True parameter below
-    with requests.get(url, stream=True) as r:
-        r.raise_for_status()
-        with open(local_filename, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=8192): 
-                if chunk: # filter out keep-alive new chunks
-                    f.write(chunk)
-                    # f.flush()
-    return local_filename
+
+def top_2_accuracy(in_gt, in_pred):
+    return top_k_categorical_accuracy(in_gt, in_pred, k=2)
 
 
-def get_image(url):
-    img_data = requests.get(url).content
+def load_model(url):
+    model = requests.get(url).content
+    with open(os.path.join('model.h5'), 'wb') as handler:
+        handler.write(model)
+    model = load_model('/home/vinicius/WebService/WebService-LIME/model.h5',custom_objects={'top_2_accuracy': top_2_accuracy})
+    return model
+
+
+def explanation_image(url1, url2):
+    img_data = requests.get(url2).content
     img_data = transforming_img(img_data)
+    model = load_model(url1)
+
     return 'ok'
