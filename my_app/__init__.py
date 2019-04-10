@@ -7,3 +7,9 @@ def method_name():
     url1 = request.form.get('model')
     url2 = request.form.get('example')
     return impl.explanation_image(url1,url2)
+
+@app.route('/tabular', methods=['POST'])
+def tabular_example():
+    url1 = request.form.get('model')
+    url2 = request.form.get('example')
+    return impl.explanation_tabular(url1,url2)

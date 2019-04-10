@@ -1,5 +1,6 @@
 import requests
 import json
+import pickle
 import lime
 from lime import lime_image
 import lime.lime_tabular
@@ -77,22 +78,36 @@ def top_2_accuracy(in_gt, in_pred):
     return top_k_categorical_accuracy(in_gt, in_pred, k=2)
 
 
-def load_model(url):
+def load_model_keras(url):
     model = requests.get(url).content
     with open(os.path.join('model.h5'), 'wb') as handler:
         handler.write(model)
     model = load_model('/home/vinicius/WebService/WebService-LIME/model.h5',custom_objects={'top_2_accuracy': top_2_accuracy})
     return model
 
+def load_csv(url):
+    csv = requests.get(url).content
+    with open(os.path.join('result.csv'), 'wb') as handler:
+        handler.write(csv)
+
+def load_model_tabular(url):
+    model = requests.get(url).content
+    with open(os.path.join('model.sav'), 'wb') as handler:
+        handler.write(model)
+    #loaded_model = pickle.load(open(filename, 'rb'))
 
 def explanation_image(url1, url2):
     img_data = requests.get(url2).content
     img_data = transforming_img(img_data)
-    model = load_model(url1)
+    model = load_model_keras(url1)
 
     return 'ok'
 
-def explanation_tabular(url1, url2):
+
+def explanation_tabular(url1,url2):
+    load_model_tabular(url1)
+    load_csv(url2)
+    return 'ok'
 
 
 
