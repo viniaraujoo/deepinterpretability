@@ -18,7 +18,7 @@ from keras.metrics import top_k_categorical_accuracy
 
 ## Application code - LIME
 
-
+'''
 def impl(model_predict,test,train=None,feature_names=None,class_names=None,idx_test=None,num_features=6,top_labels=5,hide_color=0,num_samples=1000):
       
       
@@ -33,17 +33,25 @@ def impl(model_predict,test,train=None,feature_names=None,class_names=None,idx_t
             temp, mask = explanation.get_image_and_mask(top_local, positive_only=True, num_features=5, hide_rest=True)
             img = mark_boundaries(temp / 2 + 0.5, mask)
             result.append(img)
-        return result
-        
-    elif(type(test) == np.ndarray):
-        explainer = lime.lime_tabular.LimeTabularExplainer(training_data=train, feature_names=feature_names, class_names=class_names, discretize_continuous=True)
-        exp = explainer.explain_instance(data_row=test[idx_test], predict_fn=model_predict, num_features=num_features)
-        return exp.show_in_notebook(show_table=True, show_all=False)                                                 
+        return result                                                
     else:
         explainer = LimeTextExplainer(class_names=class_names)
         exp = explainer.explain_instance(text_instance=test[idx_test], classifier_fn=model_predict, num_features=num_features)
         sp_obj = submodular_pick.SubmodularPick(explainer=explainer, data=test, predict_fn=model_predict, sample_size=2, num_features=6,num_exps_desired=2,top_labels=3)
         return [exp.as_pyplot_figure(label=0) for exp in sp_obj.sp_explanations];
+'''
+'''
+- Model_Predict : Modelo de previsão que deseja gerar a explicação
+- Train : Conjunto de treino do modelo 
+- Feature : Name : Nome das feature do conjunto de dados
+- Class_names : Nome das classe utilizada como alvo
+- Example : Exemplo que deseja gerar uma explicação
+
+'''
+def explain_lime_tabular(model_predict,train,feature_names,class_names,example):
+    explainer = lime.lime_tabular.LimeTabularExplainer(training_data=train, feature_names=feature_names, class_names=class_names, discretize_continuous=True)
+    exp = explainer.explain_instance(data_row=example, predict_fn=model_predict, num_features=6)
+    return exp.show_in_notebook(show_table=True, show_all=False)  
 
 def transforming_img(exemple):
     with open(os.path.join('image.jpg'), 'wb') as handler:
@@ -83,3 +91,10 @@ def explanation_image(url1, url2):
     model = load_model(url1)
 
     return 'ok'
+
+def explanation_tabular(url1, url2):
+
+
+
+
+
