@@ -1,12 +1,7 @@
 import requests
 import json
-import pickle
 import lime
 from lime import lime_image
-import lime.lime_tabular
-from lime import lime_text
-from lime.lime_text import LimeTextExplainer
-from lime import submodular_pick
 import numpy as np
 import os
 import keras
@@ -16,6 +11,8 @@ import sklearn
 from skimage.segmentation import mark_boundaries
 from keras.models import load_model
 from keras.metrics import top_k_categorical_accuracy
+from IPython.display import Image
+import matplotlib.pyplot as plt
 
 ## Application code - LIME
 
@@ -49,10 +46,18 @@ def impl(model_predict,test,train=None,feature_names=None,class_names=None,idx_t
 - Example : Exemplo que deseja gerar uma explicação
 
 '''
-def explain_lime_tabular(model_predict,train,feature_names,class_names,example):
-    explainer = lime.lime_tabular.LimeTabularExplainer(training_data=train, feature_names=feature_names, class_names=class_names, discretize_continuous=True)
-    exp = explainer.explain_instance(data_row=example, predict_fn=model_predict, num_features=6)
-    return exp.show_in_notebook(show_table=True, show_all=False)  
+def expalantion_model(model, image):
+    explainer = lime_image.LimeImageExplainer(verbose=False)
+    explanation = explainer.explain_instance(image= image[0], classifier_fn=model.predict, top_labels=5, hide_color=0, num_samples=1000)
+    local = explanation.top_labels
+    for n in range(5):
+        temp, mask = explanation.get_image_and_mask(local[n], positive_only=True, num_features=5, hide_rest=True)
+        plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
+        img = "fig%d.jpg" % n
+        plt.savefig(img)
+    return "ok"
+
+
 
 def transforming_img(exemple):
     with open(os.path.join('image.jpg'), 'wb') as handler:
@@ -85,29 +90,15 @@ def load_model_keras(url):
     model = load_model('/home/vinicius/WebService/WebService-LIME/model.h5',custom_objects={'top_2_accuracy': top_2_accuracy})
     return model
 
-def load_csv(url):
-    csv = requests.get(url).content
-    with open(os.path.join('result.csv'), 'wb') as handler:
-        handler.write(csv)
-
-def load_model_tabular(url):
-    model = requests.get(url).content
-    with open(os.path.join('model.sav'), 'wb') as handler:
-        handler.write(model)
-    #loaded_model = pickle.load(open(filename, 'rb'))
 
 def explanation_image(url1, url2):
     img_data = requests.get(url2).content
     img_data = transforming_img(img_data)
     model = load_model_keras(url1)
-
+    expalantion_model(model,img_data)
     return 'ok'
 
 
-def explanation_tabular(url1,url2):
-    load_model_tabular(url1)
-    load_csv(url2)
-    return 'ok'
 
 
 
