@@ -1,51 +1,20 @@
 import requests
 import json
 import lime
-from lime import lime_image
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 import keras
+import sklearn
 from keras.preprocessing import image
 from keras.applications import inception_v3 as inc_net
-import sklearn
+from lime import lime_image
 from skimage.segmentation import mark_boundaries
 from keras.models import load_model
 from keras.metrics import top_k_categorical_accuracy
 from IPython.display import Image
-import matplotlib.pyplot as plt
 
-## Application code - LIME
 
-'''
-def impl(model_predict,test,train=None,feature_names=None,class_names=None,idx_test=None,num_features=6,top_labels=5,hide_color=0,num_samples=1000):
-      
-      
-    if(type(test) == bytes):
-        img = transforming_img(test)
-        explainer = lime_image.LimeImageExplainer(verbose=False)
-        explanation = explainer.explain_instance(image= img[0], classifier_fn=model_predict, top_labels=top_labels, hide_color=hide_color, num_samples=num_samples)
-        listtop = explanation.top_labels
-        result = []
-        for n in range(top_labels):
-            top_local = listtop[n]
-            temp, mask = explanation.get_image_and_mask(top_local, positive_only=True, num_features=5, hide_rest=True)
-            img = mark_boundaries(temp / 2 + 0.5, mask)
-            result.append(img)
-        return result                                                
-    else:
-        explainer = LimeTextExplainer(class_names=class_names)
-        exp = explainer.explain_instance(text_instance=test[idx_test], classifier_fn=model_predict, num_features=num_features)
-        sp_obj = submodular_pick.SubmodularPick(explainer=explainer, data=test, predict_fn=model_predict, sample_size=2, num_features=6,num_exps_desired=2,top_labels=3)
-        return [exp.as_pyplot_figure(label=0) for exp in sp_obj.sp_explanations];
-'''
-'''
-- Model_Predict : Modelo de previsão que deseja gerar a explicação
-- Train : Conjunto de treino do modelo 
-- Feature : Name : Nome das feature do conjunto de dados
-- Class_names : Nome das classe utilizada como alvo
-- Example : Exemplo que deseja gerar uma explicação
-
-'''
 def expalantion_model(model, image):
     explainer = lime_image.LimeImageExplainer(verbose=False)
     explanation = explainer.explain_instance(image= image[0], classifier_fn=model.predict, top_labels=5, hide_color=0, num_samples=1000)
