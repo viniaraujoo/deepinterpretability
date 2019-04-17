@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
-    <title>Hello World Template</title>
+    <head>
+        <title>Index</title>
+    </head>
     <body>
-        <img src="{{ user_image }}" alt="User Image">
+        <img src=" {{url_for('send_image', filename=image_name)}}">
     </body>
 </html>
