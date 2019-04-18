@@ -30,10 +30,8 @@ def method_name():
 
 @app.route('/tabular', methods=['GET'])
 def render_static():
-    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'fig1.jpg')
-    
-    
-    return render_template("index.html",image_name = 'fig1.jpg')
+    dados = os.listdir('/home/vinicius/WebService/WebService-LIME/api_lime/my_app/data')
+    return render_template("gallery.html", image_names=dados)
 
 
 @app.route('/tabular/<filename>')
@@ -42,7 +40,7 @@ def send_image(filename):
 
 @app.route('/gallery')
 def get_gallery():
-    image_names = os.listdir('./data')
-    print(image_names)
-    return render_template("gallery.html", image_names=image_names)
+    #image_names = os.listdir('./data')
+    #print(image_names)
+    return render_template("gallery.html", image_names=['fig1.jpg', 'fig2.jpg', 'fig3.jpg', 'fig4.jpg'])
 

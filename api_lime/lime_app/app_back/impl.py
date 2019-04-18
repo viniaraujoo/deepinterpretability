@@ -56,7 +56,7 @@ def load_model_keras(url):
     model = requests.get(url).content
     with open(os.path.join('model.h5'), 'wb') as handler:
         handler.write(model)
-    model = load_model('/home/vinicius/WebService/WebService-LIME/model.h5',custom_objects={'top_2_accuracy': top_2_accuracy})
+    model = load_model('/home/vinicius/WebService/WebService-LIME/api_lime/model.h5',custom_objects={'top_2_accuracy': top_2_accuracy})
     return model
 
 
