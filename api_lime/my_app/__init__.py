@@ -19,10 +19,17 @@ app.config['UPLOAD_FOLDER'] = os.path.join('WebService-LIME')
 
 @app.route('/', methods=['POST'])
 def method_name():
-    url1 = request.form.get('model')
-    url2 = request.form.get('example')
-    impl.explanation_image(url1,url2)
-    return app.send_static_file("index.hml")
+    url_model = request.form.get('model')
+    url_example = request.form.get('example')
+    top_labels = request.form.get('top_labels')
+    num_samples = request.form.get('num_samples')
+    hide_color = request.form.get('hide_color')
+    impl.explanation_image(url_model,url_example,top_labels,hide_color,num_samples)
+    imgs = [top_labels]
+    for i in range(top_labels):
+        imgs[i] = 'fig%d.jpg' % n
+
+    return render_template("gallery.html", image_names=imgs)
 
 
 
