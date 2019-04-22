@@ -21,6 +21,15 @@ app.config['UPLOAD_FOLDER'] = os.path.join('WebService-LIME')
 def method_name():
     url_model = request.form.get('model')
     url_example = request.form.get('example')
+    impl.explanation_image(url_model,url_example)
+    imgs = os.listdir('./my_app/data')
+    return render_template("gallery.html", image_names=['fig0.jpg','fig1.jpg', 'fig2.jpg', 'fig3.jpg', 'fig4.jpg'])
+
+'''
+@app.route('/', methods=['POST'])
+def method_name():
+    url_model = request.form.get('model')
+    url_example = request.form.get('example')
     top_labels = request.form.get('top_labels')
     num_samples = request.form.get('num_samples')
     hide_color = request.form.get('hide_color')
@@ -30,16 +39,18 @@ def method_name():
         imgs[i] = 'fig%d.jpg' % n
 
     return render_template("gallery.html", image_names=imgs)
-
+'''
 
 
 
 
 @app.route('/tabular', methods=['GET'])
 def render_static():
-    dados = os.listdir('/home/vinicius/WebService/WebService-LIME/api_lime/my_app/data')
-    return render_template("gallery.html", image_names=dados)
-
+    #dados = os.listdir('/home/vinicius/WebService/WebService-LIME/api_lime/my_app/data')
+    
+    #return render_template("gallery.html", image_names=dados)
+    impl.test_local()
+    return "ok"
 
 @app.route('/tabular/<filename>')
 def send_image(filename):
@@ -47,7 +58,7 @@ def send_image(filename):
 
 @app.route('/gallery')
 def get_gallery():
-    #image_names = os.listdir('./data')
+    image_names = os.listdir('./my_app/data')
     #print(image_names)
-    return render_template("gallery.html", image_names=['fig1.jpg', 'fig2.jpg', 'fig3.jpg', 'fig4.jpg'])
+    return render_template("gallery.html", image_names=image_names)
 
