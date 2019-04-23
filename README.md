@@ -28,6 +28,8 @@ This API uses the LIME technique to promote model explanations.
 
 **Method** : `GET`
 
+![Result](https://raw.githubusercontent.com/viniaraujoo/model_Example/master/Screenshot%20from%202019-04-23%2009-16-12.png)
+
 ## Success Response
 
 **Code** : `200 OK`
