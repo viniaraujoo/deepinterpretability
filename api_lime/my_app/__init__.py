@@ -29,6 +29,7 @@ def method_name():
 
 @app.route('/image')
 def method_image():
+    os.mkdir('./my_app/data')
     url_model = request.form.get('model')
     url_example = request.form.get('example')
     top_labels = int(request.form.get('top_labels'))
