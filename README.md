@@ -7,21 +7,26 @@ This API uses the LIME technique to promote model explanations.
 
 # Example
 
-Used to collect a Token for a registered User.
+**URL** : `/api/image`
 
-**URL** : `/api/login/`
-
-**Method** : `POST`   `GET`
+**Method** : `POST`
 
 **Data example**
 
 ```json
 {
-    "likmodel": "iloveauth@example.com",
-    "examplemodel": "abcd1234"
+    "model": "https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5",
+    "example": "https://raw.githubusercontent.com/marcotcr/lime/master/doc/notebooks/data/cat_mouse.jpg",
+    "top_labels": 5,
+    "num_samples": 1000,
+    "hide_color": 0
     
 }
 ```
+
+**URL** : `/api/result`
+
+**Method** : `GET`
 
 ## Success Response
 
@@ -39,7 +44,7 @@ Used to collect a Token for a registered User.
 License
 ----
 
-MIT
+
 
 
 ![Foo](https://www.atmosphere-eubrazil.eu/sites/all/themes/theme1/logo.png)
