@@ -2,10 +2,14 @@ from flask import Flask, session, redirect, url_for, escape, request, render_tem
 from flask_pymongo import PyMongo
 from lime_app.app_back import impl
 import os
-from keras.models import load_model
-from keras.metrics import top_k_categorical_accuracy
 import gridfs
 import requests
+import sklearn
+import numpy as np
+from keras.preprocessing import image
+from keras.applications import inception_v3 as inc_net
+from keras.models import load_model
+from keras.metrics import top_k_categorical_accuracy
 
 __author__ = 'viniaraujoo'
 
@@ -33,31 +37,31 @@ def home_page():
 
 
 # Recebe a url e salva o modelo no banco de dados e retornar o filename do modelo.
-@app.route("/uploads", methods=["POST"])
+@app.route("/uploadmodel", methods=["POST"])
 def save_upload():
     url_model = request.form.get('model')
-    
-    return 'ok'
+    return save_model(url_model)
 
 def top_2_accuracy(in_gt, in_pred):
     return top_k_categorical_accuracy(in_gt, in_pred, k=2)
 
-@app.route("/explanation", methods=["GET"])
-def explanation():
-    return 'ok'
 
-@app.route('/image')
-def method_image():
-    os.mkdir('./my_app/data')
+
+@app.route("/explanationlime", methods=["GET"])
+def explanation_lime():
+    #os.mkdir('./my_app/data')
     url_model = request.form.get('model')
     url_example = request.form.get('example')
     top_labels = int(request.form.get('top_labels'))
     num_samples = int(request.form.get('num_samples'))
     hide_color = int(request.form.get('hide_color'))
-    impl.explanation_image(url_model,url_example,top_labels,hide_color,num_samples)
+    model = load_model_url(url_model)
+    example = load_example(url_example)
+    impl.expalantion_model_lime_image(model,example,top_labels,hide_color,num_samples)
     imgs = os.listdir('./my_app/data')
 
     return render_template("gallery.html", image_names=imgs)
+
 
 
 
@@ -84,16 +88,34 @@ def save_model(url):
     return url
 
 #Responsible function to load model in bd
-def load_model(url):
+def load_model_url(url):
     file_bd = gridfs.GridFS(mongo.db, collection="modelh5")
     for grid_out in file_bd.find({"filename" : url}):
         data = grid_out.read()
     
     with open('modelbd.h5','wb') as pl:
         pl.write(data)
+    pl.close()
     model = load_model('./modelbd.h5')
     return model
     
+def load_example(url):
+    exemple = requests.get(url).content
+    with open(os.path.join('image.jpg'), 'wb') as handler:
+        handler.write(exemple)
+    image = transform_img_fn([os.path.join('image.jpg')])
+    return image
+
+def transform_img_fn(path_list):
+    #Transform image so it can be processed by inception.
+    out = []
+    for img_path in path_list:
+        img = image.load_img(img_path, target_size=(299, 299))
+        x = image.img_to_array(img)
+        x = np.expand_dims(x, axis=0)
+        x = inc_net.preprocess_input(x)
+        out.append(x)
+    return np.vstack(out)
 
 '''
 @app.route("/load", methods=["GET"])
