@@ -5,11 +5,13 @@ import numpy as np
 import os
 import keras
 import sklearn
+import shap
 from keras.preprocessing import image
 from keras.applications import inception_v3 as inc_net
 from lime import lime_image
 from skimage.segmentation import mark_boundaries
 from IPython.display import Image
+
 
 
 def expalantion_model_lime_image(model, image,top_labels,hide_color,num_samples):
@@ -22,6 +24,15 @@ def expalantion_model_lime_image(model, image,top_labels,hide_color,num_samples)
         img = "./my_app/data/fig%d.jpg" % n
         plt.savefig(img)
     return "ok"
+
+
+def expalantion_model_shap_image(model, train,example):
+    explanation = shap.DeepExplainer(model, train)
+    shap_values = explanation.shap_values(example)
+    fig = shap.image_plot(shap_values, -example, show=False)
+    plt.savefig('./my_app/data/result.jpg')
+    return "ok"
+
 
 
 

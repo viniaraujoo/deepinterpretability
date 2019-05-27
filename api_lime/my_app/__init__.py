@@ -6,10 +6,14 @@ import gridfs
 import requests
 import sklearn
 import numpy as np
+import tensorflow as tf
 from keras.preprocessing import image
 from keras.applications import inception_v3 as inc_net
 from keras.models import load_model
 from keras.metrics import top_k_categorical_accuracy
+import zipfile
+import io
+from zipfile import ZipFile 
 
 __author__ = 'viniaraujoo'
 
@@ -41,11 +45,6 @@ def home_page():
 def save_upload():
     url_model = request.form.get('model')
     return save_model(url_model)
-
-def top_2_accuracy(in_gt, in_pred):
-    return top_k_categorical_accuracy(in_gt, in_pred, k=2)
-
-
 
 @app.route("/explanationlime", methods=["GET"])
 def explanation_lime():
@@ -96,7 +95,8 @@ def load_model_url(url):
     with open('modelbd.h5','wb') as pl:
         pl.write(data)
     pl.close()
-    model = load_model('./modelbd.h5')
+    
+    model = tf.keras.models.load_model('./modelbd.h5')
     return model
     
 def load_example(url):
@@ -116,6 +116,33 @@ def transform_img_fn(path_list):
         x = inc_net.preprocess_input(x)
         out.append(x)
     return np.vstack(out)
+
+
+@app.route('/shap')
+def explanation_shap():
+    model_url = request.form.get('model')
+    train_url = request.form.get('train')
+    example_url = request.form.get('example')
+    model = load_model_url(model_url)
+    train  = load_numpy_file(train_url)
+    example = load_numpy_file(example_url)
+
+    return impl.expalantion_model_shap_image(model,train,example)
+
+
+'''
+This function aims to download the training set used to explain SHAP and a numpy file load
+'''
+def load_numpy_file(url):
+    exemple = requests.get(url).content
+    with open(os.path.join('numpy.zip'), 'wb') as handler:
+        handler.write(exemple)
+    with ZipFile('numpy.zip', 'r') as zip:
+        file = zip.namelist()
+        zip.extractall()
+    array = np.load('./' + file[0]) 
+    return array
+
 
 '''
 @app.route("/load", methods=["GET"])

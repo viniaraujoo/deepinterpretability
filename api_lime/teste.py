@@ -9,7 +9,7 @@ Teste para requisição de modelos de imagens retinopatia
 r = requests.post('http://localhost:5000/', data ={'model':'https://github.com/viniaraujoo/model_Example/raw/master/full_retina_model%20.h5','example': 'https://raw.githubusercontent.com/marcotcr/lime/master/doc/notebooks/data/cat_mouse.jpg'})
 '''
 
-r = requests.get('http://localhost:5000/explanationlime', data ={'model':'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5','example': 'https://raw.githubusercontent.com/marcotcr/lime/master/doc/notebooks/data/cat_mouse.jpg','top_labels':8,'hide_color':0,'num_samples': 1000})
+#r = requests.get('http://localhost:5000/explanationlime', data ={'model':'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5','example': 'https://raw.githubusercontent.com/marcotcr/lime/master/doc/notebooks/data/cat_mouse.jpg','top_labels':8,'hide_color':0,'num_samples': 1000})
 
 #v = requests.post('http://localhost:5000/', data ={'model':'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5','example': 'https://raw.githubusercontent.com/marcotcr/lime/master/doc/notebooks/data/cat_mouse.jpg','top_labels':5})
 #model_tabular = 'https://github.com/viniaraujoo/model_Example/raw/master/model.sav'
@@ -19,5 +19,9 @@ r = requests.get('http://localhost:5000/explanationlime', data ={'model':'https:
 #r = requests.post('http://localhost:5000/uploads')
 #v = requests.post('http://localhost:5000/uploadmodel', data = {'model': 'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5'})
 #r = requests.get('http://localhost:5000/load')
-
+#v = requests.post('http://localhost:5000/uploadmodel', data = {'model': 'https://www.kaggle.com/viniciusaraujo/model-malaria/downloads/vgg_finetuned.h5/1'})
+r = requests.get('http://localhost:5000/shap', data ={'model': 'https://www.kaggle.com/viniciusaraujo/model-malaria/downloads/vgg_finetuned.h5/1', 'train': 'https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1rqN87_9sYkoC_5wuCWNaD9Vjl2r6Ee6g&export=download','example':'https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1BdIyjQmsuJZ_AOREhlEGyLU38ts2XOXu&export=download'})
+##https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1BdIyjQmsuJZ_AOREhlEGyLU38ts2XOXu&export=download
+#https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1FemIPhLz-FRRXOoSJ6Nf7P-ByZ3L7ZCO&export=download
+#https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1rqN87_9sYkoC_5wuCWNaD9Vjl2r6Ee6g&export=download
 print(r)
