@@ -9,7 +9,7 @@ Teste para requisição de modelos de imagens retinopatia
 r = requests.post('http://localhost:5000/', data ={'model':'https://github.com/viniaraujoo/model_Example/raw/master/full_retina_model%20.h5','example': 'https://raw.githubusercontent.com/marcotcr/lime/master/doc/notebooks/data/cat_mouse.jpg'})
 '''
 
-#r = requests.get('http://localhost:5000/explanationlime', data ={'model':'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5','example': 'https://raw.githubusercontent.com/marcotcr/lime/master/doc/notebooks/data/cat_mouse.jpg','top_labels':8,'hide_color':0,'num_samples': 1000})
+r = requests.get('http://localhost:5000/explanationlime', data ={'model':'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5','example': 'https://raw.githubusercontent.com/marcotcr/lime/master/doc/notebooks/data/cat_mouse.jpg','top_labels':4,'hide_color':0,'num_samples': 1000})
 
 #v = requests.post('http://localhost:5000/', data ={'model':'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5','example': 'https://raw.githubusercontent.com/marcotcr/lime/master/doc/notebooks/data/cat_mouse.jpg','top_labels':5})
 #model_tabular = 'https://github.com/viniaraujoo/model_Example/raw/master/model.sav'
@@ -28,5 +28,5 @@ r = requests.post('http://localhost:5000/', data ={'model':'https://github.com/v
 
 ### Teste LIME
 
-t = requests.post('http://localhost:5000/uploadmodel', data = {'model': 'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5'})
-print(t)
+#t = requests.post('http://localhost:5000/uploadmodel', data = {'model': 'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5'})
+print(r)

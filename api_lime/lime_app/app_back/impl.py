@@ -19,7 +19,7 @@ def expalantion_model_lime_image(model, image,top_labels,hide_color,num_samples)
     explanation = explainer.explain_instance(image= image[0], classifier_fn=model.predict, top_labels=top_labels, hide_color=hide_color, num_samples=num_samples)
     local = explanation.top_labels
 
-    plt.figure(1 , figsize = (8,8))
+    plt.figure(1 , figsize = (4,4))
     n = 0 
     for i in range(len(local)):
         n += 1 
