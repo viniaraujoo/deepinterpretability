@@ -18,11 +18,16 @@ def expalantion_model_lime_image(model, image,top_labels,hide_color,num_samples)
     explainer = lime_image.LimeImageExplainer(verbose=False)
     explanation = explainer.explain_instance(image= image[0], classifier_fn=model.predict, top_labels=top_labels, hide_color=hide_color, num_samples=num_samples)
     local = explanation.top_labels
-    for n in range(top_labels):
-        temp, mask = explanation.get_image_and_mask(local[n], positive_only=True, num_features=5, hide_rest=True)
+
+    plt.figure(1 , figsize = (8,8))
+    n = 0 
+    for i in range(len(local)):
+        n += 1 
+        plt.subplot(4 , 4 , n)
+        plt.subplots_adjust(hspace = 0.5 , wspace = 0.5)
+        temp, mask = explanation.get_image_and_mask(local[i], positive_only=True, num_features=5, hide_rest=True)
         plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
-        img = "./my_app/data/fig%d.jpg" % n
-        plt.savefig(img)
+    plt.savefig('test.jpg')
     return "ok"
 
 
@@ -34,7 +39,14 @@ def expalantion_model_shap_image(model, train,example):
     return "ok"
 
 
+'''
+    for n in range(len(local)):
+        temp, mask = explanation.get_image_and_mask(local[n], positive_only=True, num_features=5, hide_rest=True)
+        plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
+        img = "./my_app/data/fig%d.jpg" % n
+        plt.savefig(img)
 
+'''
 
 
 

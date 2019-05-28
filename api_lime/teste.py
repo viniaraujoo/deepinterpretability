@@ -20,8 +20,13 @@ r = requests.post('http://localhost:5000/', data ={'model':'https://github.com/v
 #v = requests.post('http://localhost:5000/uploadmodel', data = {'model': 'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5'})
 #r = requests.get('http://localhost:5000/load')
 #v = requests.post('http://localhost:5000/uploadmodel', data = {'model': 'https://www.kaggle.com/viniciusaraujo/model-malaria/downloads/vgg_finetuned.h5/1'})
-r = requests.get('http://localhost:5000/shap', data ={'model': 'https://www.kaggle.com/viniciusaraujo/model-malaria/downloads/vgg_finetuned.h5/1', 'train': 'https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1rqN87_9sYkoC_5wuCWNaD9Vjl2r6Ee6g&export=download','example':'https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1BdIyjQmsuJZ_AOREhlEGyLU38ts2XOXu&export=download'})
+#r = requests.get('http://localhost:5000/shap', data ={'model': 'https://www.kaggle.com/viniciusaraujo/model-malaria/downloads/vgg_finetuned.h5/1', 'train': 'https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1rqN87_9sYkoC_5wuCWNaD9Vjl2r6Ee6g&export=download','example':'https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1BdIyjQmsuJZ_AOREhlEGyLU38ts2XOXu&export=download'})
 ##https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1BdIyjQmsuJZ_AOREhlEGyLU38ts2XOXu&export=download
 #https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1FemIPhLz-FRRXOoSJ6Nf7P-ByZ3L7ZCO&export=download
 #https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1rqN87_9sYkoC_5wuCWNaD9Vjl2r6Ee6g&export=download
-print(r)
+
+
+### Teste LIME
+
+t = requests.post('http://localhost:5000/uploadmodel', data = {'model': 'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5'})
+print(t)
