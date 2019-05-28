@@ -1,4 +1,4 @@
-from flask import Flask, session, redirect, url_for, escape, request, render_template, send_from_directory
+from flask import Flask, session, redirect, url_for, escape, request, render_template, send_from_directory, send_file
 from flask_pymongo import PyMongo
 from lime_app.app_back import impl
 import os
@@ -126,8 +126,9 @@ def explanation_shap():
     model = load_model_url(model_url)
     train  = load_numpy_file(train_url)
     example = load_numpy_file(example_url)
+    impl.expalantion_model_shap_image(model,train,example)
 
-    return impl.expalantion_model_shap_image(model,train,example)
+    return send_file('result.jpg', mimetype='image')
 
 
 '''
@@ -144,18 +145,3 @@ def load_numpy_file(url):
     return array
 
 
-'''
-@app.route("/load", methods=["GET"])
-def load_model():
-    m = mongo.db.fs.files.find()
-    b = gridfs.GridFS(mongo.db, collection="modelh5")
-    for grid_out in b.find({"filename" : "model"}):
-        data = grid_out.read()
-    
-    with open('teste.h5','wb') as pl:
-        pl.write(data)
-    #fs = gridfs.GridFS(mongo.db)
-    #print(dir(m))
-    return 'ok'
-
-'''
