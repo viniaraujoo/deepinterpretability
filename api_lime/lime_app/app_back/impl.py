@@ -27,7 +27,7 @@ def expalantion_model_lime_image(model, image,top_labels,hide_color,num_samples)
         plt.subplots_adjust(hspace = 0.5 , wspace = 0.5)
         temp, mask = explanation.get_image_and_mask(local[i], positive_only=True, num_features=5, hide_rest=True)
         plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
-    plt.savefig('test.jpg')
+    plt.savefig('./my_app/result.jpg')
     return "ok"
 
 
@@ -35,7 +35,7 @@ def expalantion_model_shap_image(model, train,example):
     explanation = shap.DeepExplainer(model, train)
     shap_values = explanation.shap_values(example)
     fig = shap.image_plot(shap_values, -example, show=False)
-    plt.savefig('./my_app/data/result.jpg')
+    plt.savefig('./my_app/result.jpg')
     return "ok"
 
 

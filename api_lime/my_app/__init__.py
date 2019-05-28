@@ -57,9 +57,8 @@ def explanation_lime():
     model = load_model_url(url_model)
     example = load_example(url_example)
     impl.expalantion_model_lime_image(model,example,top_labels,hide_color,num_samples)
-    imgs = os.listdir('./my_app/data')
 
-    return render_template("gallery.html", image_names=imgs)
+    return send_file('result.jpg', mimetype='image')
 
 
 
