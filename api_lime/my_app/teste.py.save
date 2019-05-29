@@ -1,5 +1,0 @@
-import os
-
-os.path.abspath#dados = os.listdir(os.path.join('data'))
-data = os.path.abspath('data')
-print(data)

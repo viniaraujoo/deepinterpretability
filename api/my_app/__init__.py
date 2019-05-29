@@ -1,6 +1,6 @@
 from flask import Flask, session, redirect, url_for, escape, request, render_template, send_from_directory, send_file
 from flask_pymongo import PyMongo
-from lime_app.app_back import impl
+from interpretabily_app.app_back import impl
 import os
 import gridfs
 import requests
