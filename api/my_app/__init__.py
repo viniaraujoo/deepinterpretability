@@ -1,19 +1,19 @@
-from flask import Flask, session, redirect, url_for, escape, request, render_template, send_from_directory, send_file
-from flask_pymongo import PyMongo
-from interpretabily_app.app_back import impl
+import zipfile
+import io
 import os
 import gridfs
 import requests
 import sklearn
 import numpy as np
 import tensorflow as tf
+from flask import Flask, session, redirect, url_for, escape, request, render_template, send_from_directory, send_file
+from flask_pymongo import PyMongo
+from interpretabily_app.app_back import impl
 from keras.preprocessing import image
 from keras.applications import inception_v3 as inc_net
 from keras.models import load_model
 from keras.metrics import top_k_categorical_accuracy
-import zipfile
-import io
-from zipfile import ZipFile 
+from zipfile import ZipFile
 
 __author__ = 'viniaraujoo'
 
@@ -27,17 +27,10 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 file_caminho = os.path.join('WebService-LIME')
 
-app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+app.config["MONGO_URI"] = "mongodb://localhost:27017/ModelsDatabase"
 mongo = PyMongo(app)
 
 app.config['UPLOAD_FOLDER'] = os.path.join('WebService-LIME')
-
-
-@app.route("/")
-def home_page():
-    online_users = mongo.db.users.find({"online": True})
-    return render_template("index.html",
-        online_users=online_users)
 
 
 # Recebe a url e salva o modelo no banco de dados e retornar o filename do modelo.
@@ -48,7 +41,6 @@ def save_upload():
 
 @app.route("/explanationlime", methods=["GET"])
 def explanation_lime():
-    #os.mkdir('./my_app/data')
     url_model = request.form.get('model')
     url_example = request.form.get('example')
     top_labels = int(request.form.get('top_labels'))
@@ -61,19 +53,20 @@ def explanation_lime():
     return send_file('result.jpg', mimetype='image')
 
 
+@app.route('/shap')
+def explanation_shap():
+    model_url = request.form.get('model')
+    train_url = request.form.get('train')
+    example_url = request.form.get('example')
+    model = load_model_url(model_url)
+    train  = load_numpy_file(train_url)
+    example = load_numpy_file(example_url)
+    impl.expalantion_model_shap_image(model,train,example)
+
+    return send_file('result.jpg', mimetype='image')
 
 
-@app.route('/gallery/<filename>')
-def send_image(filename):
-    return send_from_directory("data", filename)
-
-@app.route('/gallery')
-def get_gallery():
-    image_names = os.listdir('./my_app/data')
-    
-    return render_template("gallery.html", image_names=image_names)
-
-
+## Backend Functions
 
 #Responsible function to download and save the template in the mongodb database
 def save_model(url):
@@ -115,20 +108,6 @@ def transform_img_fn(path_list):
         x = inc_net.preprocess_input(x)
         out.append(x)
     return np.vstack(out)
-
-
-@app.route('/shap')
-def explanation_shap():
-    model_url = request.form.get('model')
-    train_url = request.form.get('train')
-    example_url = request.form.get('example')
-    model = load_model_url(model_url)
-    train  = load_numpy_file(train_url)
-    example = load_numpy_file(example_url)
-    impl.expalantion_model_shap_image(model,train,example)
-
-    return send_file('result.jpg', mimetype='image')
-
 
 '''
 This function aims to download the training set used to explain SHAP and a numpy file load

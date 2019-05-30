@@ -25,7 +25,7 @@ r = requests.get('http://localhost:5000/explanationlime', data ={'model':'https:
 #https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1FemIPhLz-FRRXOoSJ6Nf7P-ByZ3L7ZCO&export=download
 #https://drive.google.com/a/ccc.ufcg.edu.br/uc?authuser=0&id=1rqN87_9sYkoC_5wuCWNaD9Vjl2r6Ee6g&export=download
 
-
+#r = requests.get('http://localhost:5000/teste')
 ### Teste LIME
 
 #t = requests.post('http://localhost:5000/uploadmodel', data = {'model': 'https://github.com/viniaraujoo/model_Example/raw/master/model_incep.h5'})

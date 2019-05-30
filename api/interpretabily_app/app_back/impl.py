@@ -1,13 +1,8 @@
-import json
 import lime
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-import keras
-import sklearn
 import shap
-from keras.preprocessing import image
-from keras.applications import inception_v3 as inc_net
 from lime import lime_image
 from skimage.segmentation import mark_boundaries
 from IPython.display import Image
