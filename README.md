@@ -26,9 +26,13 @@ model: Keras model URL saved in file type [H5](https://www.h5py.org/)
 ## LIME:
 
 model: Template key (URL) saved to the database
+
 example: URL of the image you want to use as an example of model explanation
+
 top_labels: Explanation for K labels with higher probability.
+
 num_samples: size of the neighborhood to learn the linear model
+
 hide_color: 0 or 1
 
 ### Example
@@ -61,7 +65,9 @@ hide_color: 0 or 1
 
 ## SHAP:
 model: Template key (URL) saved to the database
+
 Example: Image URL in numpy compressed ZIP file (Image that you want the explanation).
+
 train: ZIP of the set of images numpy array train format of the explanation.
 
 ### Example
