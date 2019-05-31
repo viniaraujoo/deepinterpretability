@@ -7,8 +7,13 @@
 The templates are saved in mongodb database for future explanation, the template download URL is the key to access in the future.
 
 model: Keras model URL saved in file type [H5](https://www.h5py.org/)
+
+### Example
+
 **URL** : `/api/uploadmodel`
+
 **Method** : `POST`
+
 **Data example**
 ```json
 {
@@ -26,7 +31,7 @@ top_labels: Explanation for K labels with higher probability.
 num_samples: size of the neighborhood to learn the linear model
 hide_color: 0 or 1
 
-# Example
+### Example
 
 **URL** : `/api/explanationlime`
 
@@ -59,7 +64,7 @@ model: Template key (URL) saved to the database
 Example: Image URL in numpy compressed ZIP file (Image that you want the explanation).
 train: ZIP of the set of images numpy array train format of the explanation.
 
-# Example
+### Example
 
 **URL** : `/api/shap`
 
